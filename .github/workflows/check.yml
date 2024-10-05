@@ -1,0 +1,36 @@
+name: Check for required files
+
+on:
+  push:
+    branches: [ assignment ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check hello.py
+        id: check_1_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "hello.py"
+
+      - name: Required files exist
+        if: steps.check_1_files.outputs.files_exists != 'true'
+        run: |
+          echo Required file, 'hello.py', is missing
+          exit 1
+          
+      - name: Check screencap-codepace.png
+        id: check_2_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "screencap-codepace.png"
+
+      - name: Required files exist
+        if: steps.check_2_files.outputs.files_exists != 'true'
+        run: |
+          echo Required file, 'screencap-codepace.png', is missing
+          exit 1
+          
